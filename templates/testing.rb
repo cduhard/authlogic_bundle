@@ -50,7 +50,7 @@ gem 'treetop', :lib => false, :version => '>=1.2.5', :env => 'test'
 gem 'diff-lcs', :lib => false, :version => '>=1.1.2', :env => 'test'
 gem 'nokogiri', :lib => false, :version => '>=1.2.3', :env => 'test'
 gem 'builder', :lib => false, :version => '>=2.1.2', :env => 'test'
-gem 'cucumber', :lib => false, :version => '>=0.3.6', :env => 'test'
+gem 'cucumber', :lib => false, :version => '>=0.3.9', :env => 'test'
 gem 'webrat', :lib => 'webrat', :version => '>=0.4.4', :env => 'test'
 gem 'bmabey-email_spec', :lib => 'email_spec', :version => '>=0.1.3',
   :source => 'http://gems.github.com', :env => 'test'
