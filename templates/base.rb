@@ -34,6 +34,8 @@ if yes?("Install haml?")
   end
 end
 
+puts "DONE HAML"
+#
 # please note the order of config.gem and databse migration
 gem 'stffn-declarative_authorization', :lib => 'declarative_authorization',
   :version => '>=0.3.0', :source => 'http://gems.github.com'
@@ -44,6 +46,8 @@ gem 'bcrypt-ruby', :lib => 'bcrypt', :version => '>=2.0.5'
 
 rake 'gems:install', :sudo => true
 
+puts "INSTALLED BASE GEMS"
+#
 # plugin 'authlogic', :submodule => git?, 
 #   :git => 'git://github.com/binarylogic/authlogic.git'
 
@@ -60,6 +64,8 @@ plugin 'custom-err-msg', :submodule => git?, :git => 'git://github.com/gumayunov
 plugin 'validation_reflection', :submodule => git?, :git  => 'git://github.com/redinger/validation_reflection.git'
 plugin 'vasco', :submodule => git?, :git => 'git://github.com/relevance/vasco.git'
 plugin 'excessive_support', :submodule => git?, :git => 'git://github.com/yizzreel/excessive_support.git'
+
+puts "INSTALLED BASE PLUGINS"
 
 generate :migration, 'create_users'
 file Dir.glob('db/migrate/*_create_users.rb').first,
@@ -115,6 +121,9 @@ file_append 'config/initializers/config_loader.rb', <<-CODE
 config = File.read(Rails.root.join('config', 'notifier.yml'))
 NOTIFIER = YAML.load(config)[RAILS_ENV]['notifier'].symbolize_keys
 CODE
+
+
+puts "INSTALLED CONFIG"
 
 #########################
 #  MVC
@@ -184,6 +193,8 @@ file_append 'app/helpers/layout_helper.rb', open("#{SOURCE}/app/helpers/layout_h
   $(function() {
   });
   JS
+
+  puts "INSTALLED BASE APP"
 
 if git?
   git :rm => "public/index.html"

@@ -10,6 +10,8 @@ gem 'josevalim-rails-footnotes', :lib => 'rails-footnotes', :version => '>=3.6.0
 rake 'gems:install', :sudo => true, :env => 'development'
 plugin 'exception_notifier', :git => 'git://github.com/rails/exception_notification.git'
 
+puts "INSTALLED BASE MONITOR GEMS"
+
 initializer 'footnotes.rb', <<-CODE
 if ENV['RAILS_ENV'] == 'development'
   # NOT Textmate editor:
