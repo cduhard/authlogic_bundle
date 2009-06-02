@@ -15,6 +15,7 @@ gem 'thoughtbot-factory_girl', :lib => false, :version => '>=1.2.1',
   :source => 'http://gems.github.com', :env => 'test'
 
 rake 'gems:install', :sudo => true, :env => 'test'
+plugin 'object_daddy', :submodule => git?, :git => 'git://github.com/flogic/object_daddy.git'
 
 # plugin 'rspec-rails', :submodule => git?,
 #   :git => 'git://github.com/dchelimsky/rspec-rails.git'

@@ -4,13 +4,13 @@ def git?
   ENV['SCM'] == 'git'
 end
 
-load_template("http://github.com/tsechingho/authlogic_bundle/raw/master/templates/git_init.rb") if git?
+load_template("http://github.com/cduhard/authlogic_bundle/raw/master/templates/git_init.rb") if git?
 
 rails_edge_path = ask("If you want to symbol link rails edge, please give absolute path or press enter to skip:")
 run "ln -s #{rails_edge_path} vendor/rails" unless rails_edge_path.blank?
 
 plugin 'authlogic_bundle', :submodule => git?, 
-  :git => 'git://github.com/tsechingho/authlogic_bundle.git'
+  :git => 'git://github.com/cduhard/authlogic_bundle.git'
 
 load_template("vendor/plugins/authlogic_bundle/templates/base.rb")
 

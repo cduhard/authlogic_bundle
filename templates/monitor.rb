@@ -8,6 +8,7 @@ gem 'josevalim-rails-footnotes', :lib => 'rails-footnotes', :version => '>=3.6.0
   :source => 'http://gems.github.com', :env => 'development'
 
 rake 'gems:install', :sudo => true, :env => 'development'
+plugin 'exception_notifier', :git => 'git://github.com/rails/exception_notification.git'
 
 initializer 'footnotes.rb', <<-CODE
 if ENV['RAILS_ENV'] == 'development'

@@ -10,8 +10,31 @@ file_append 'config/initializers/session_store.rb', <<-CODE
 ActionController::Base.session_store = :active_record_store
 CODE
 
-# please note the order of config.gem and databse migration
 
+if yes?("Install haml?")
+  haml, type = true, "haml"
+  if `gem list haml | grep 2.1.0`.chomp == ''
+    unless File.exist?('tmp/haml')
+      inside('tmp') do
+        run 'rm -rf ./haml' if File.exist?('haml')
+        run 'git clone git://github.com/nex3/haml.git'
+      end
+    end
+
+    inside('tmp/haml') do
+      run 'rake install'
+    end
+  end
+
+  run 'echo N\n | haml --rails .'
+  run 'mkdir -p public/stylesheets/sass'
+  %w( main reset ).each do |file|
+    file "public/stylesheets/sass/#{file}.sass",
+      open("#{SOURCE}/public/stylesheets/sass/#{file}.sass").read
+  end
+end
+
+# please note the order of config.gem and databse migration
 gem 'stffn-declarative_authorization', :lib => 'declarative_authorization',
   :version => '>=0.3.0', :source => 'http://gems.github.com'
 gem 'ruby-openid', :lib => 'openid', :version => '>=2.1.6'
@@ -33,6 +56,10 @@ plugin 'ssl_requirement', :submodule => git?,
   :git => 'git://github.com/rails/ssl_requirement.git'
 plugin 'i18n_label', :submodule => git?,
   :git => 'git://github.com/iain/i18n_label.git'
+plugin 'custom-err-msg', :submodule => git?, :git => 'git://github.com/gumayunov/custom-err-msg.git'
+plugin 'validation_reflection', :submodule => git?, :git  => 'git://github.com/redinger/validation_reflection.git'
+plugin 'vasco', :submodule => git?, :git => 'git://github.com/relevance/vasco.git'
+plugin 'excessive_support', :submodule => git?, :git => 'git://github.com/yizzreel/excessive_support.git'
 
 generate :migration, 'create_users'
 file Dir.glob('db/migrate/*_create_users.rb').first,
@@ -127,6 +154,36 @@ file_inject 'app/helpers/application_helper.rb', 'module ApplicationHelper', <<-
 CODE
 
 file_append 'app/helpers/layout_helper.rb', open("#{SOURCE}/app/helpers/layout_helper.rb").read
+
+#Install jQuery
+  #clean up prototype files
+  inside('public/javascripts') do
+    %w(
+      application.js
+      controls.js
+      dragdrop.js
+      effects.js
+      prototype.js
+    ).each do |file|
+      run "rm -f #{file}"
+    end
+  end
+
+  file 'public/javascripts/jquery.js',
+    open('http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js').read
+  file 'public/javascripts/jquery.full.js',
+    open('http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.js').read
+  file 'public/javascripts/jquery-ui.js',
+    open('http://ajax.googleapis.com/ajax/libs/jqueryui/1.5/jquery-ui.min.js').read
+  file 'public/javascripts/jquery-ui.full.js',
+    open('http://ajax.googleapis.com/ajax/libs/jqueryui/1.5/jquery-ui.js').read
+  file 'public/javascripts/jquery.form.js',
+    open('http://jqueryjs.googlecode.com/svn/trunk/plugins/form/jquery.form.js').read
+
+  file "public/javascripts/application.js", <<-JS
+  $(function() {
+  });
+  JS
 
 if git?
   git :rm => "public/index.html"
